@@ -21,6 +21,10 @@ public class GameObject
 	{
 		boundsRectangle = new Rectangle(x,y,width,height);
 	}
+	public void init()
+	{
+		
+	}
 	
 	public void update()
 	{

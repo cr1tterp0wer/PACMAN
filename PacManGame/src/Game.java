@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Game extends JPanel
 {
@@ -18,9 +17,7 @@ public class Game extends JPanel
 	private static int SCREEN_HEIGHT = 600;
 	
 	// Ball array to draw in the screen
-	private final int BALL_NUMBERS = 15;
-	private Ball ballarray[][] = new Ball[BALL_NUMBERS][BALL_NUMBERS];
-
+	private ArrayList<Ball> ballList;
 	
 	
 	GameObject go;
@@ -52,8 +49,32 @@ public class Game extends JPanel
 		);
 		setFocusable(true);
 		
-	
+	   init();	
+		
 	}
+	
+	private void init()
+	{
+		pacman.init();
+		ghost.init();
+		ballList = new ArrayList();
+		int y=0,x=20;
+		
+		//INIT BALLS HERE
+		for(int i=0;i<50; i++)
+		{
+			ballList.add(new Ball(x, y, Color.black));
+			x+=100;
+			
+			if (x>= SCREEN_WIDTH){
+				x=20;
+				y+=100;
+			}
+			
+		}
+		
+	}
+	
 	
 	/*
 	 * Game updates all objects 
@@ -63,6 +84,19 @@ public class Game extends JPanel
 	{
 		ghost.Update();
 		pacman.update();
+		
+		//TO-DO UPDATE BALL COLLISION HERE
+		for(int i=0;i<ballList.size(); i++)
+		{
+			
+		  if(pacman.collisionCheck(ballList.get(i).boundsRectangle))
+		  {
+			  ballList.remove(i);
+			  System.out.println(pacman.x);
+		  }
+		  
+		  System.out.println(pacman.x);
+	  }
 	}
 	
 	/**
@@ -72,36 +106,24 @@ public class Game extends JPanel
 	 * the pills
 	 */
 	public void paint(Graphics g)
-	{
-		// Two dimensional array for balls
-		int rows = ballarray.length-3;
-		int columns = ballarray.length;
-		
+	{	
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D)g;
-		
 		//smooth graphics
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		
-		// Draw the balls
-		int xBall = 0, yBall = 0;
-		for (int i = 0; i < rows ;i++)
+		for(int i=0;i<ballList.size(); i++)
 		{
-			for (int j = 0; j<columns;j++)
-			{
-				xBall += 50;
-				ballarray[i][j] = new Ball(xBall,yBall);
-				ballarray[i][j].render(g2d);
-			}
-			yBall += 50;
-			xBall = 0;
+			ballList.get(i).render(g2d);
 		}
-		
 		// Draw pacman and the ghost
 		ghost.render(g2d);
 		pacman.render(g2d);
+		
+	
+		
 	}
 	
 	/**

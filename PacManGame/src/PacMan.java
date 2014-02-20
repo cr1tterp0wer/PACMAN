@@ -6,8 +6,8 @@ import javax.swing.*;
 public class PacMan extends GameObject
 {
 	// PacMan properties
-	private int x = 100;
-	private int y = 100;
+	public int x = 100;
+	public int y = 100;
 	private int width = 50;
 	private int height = 50;
 	private int sAngle = 45;
@@ -27,6 +27,7 @@ public class PacMan extends GameObject
     public PacMan(Game game)
     {
     	this.game = game;
+    	this.boundsRectangle = new Rectangle(x,y,50,50);
     }
     
     // bullshit 
@@ -54,7 +55,6 @@ public class PacMan extends GameObject
 		//fill += mM+mM;
 		fill += 2*mM;
 		
-		System.out.println("sAngle: " + sAngle + "   fill" + fill );
 		if((x + xa + 300) < 0) xa = 1;
 		if(x + xa + 320 > game.getWidth() - DIAMETER) xa = -1;
 		if(y + ya + 200 < 0 ) ya = 1;

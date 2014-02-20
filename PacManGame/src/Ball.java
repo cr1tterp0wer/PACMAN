@@ -32,6 +32,7 @@ public class Ball extends GameObject
 		this.x = x;
 		this.y = y;
 		this.color = color;
+		this.boundsRectangle = new Rectangle(x,y,10,10);
 	}
 	
 	/**
